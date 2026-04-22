@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "test": "jest",
     "test:watch": "jest --watch",
-    "gen:images": "ts-node scripts/generate-battle-images.ts"
+    "gen:images": "ts-node --project tsconfig.scripts.json scripts/generate-battle-images.ts"
   },
   "dependencies": {
     "@react-navigation/native": "^7.2.2",
