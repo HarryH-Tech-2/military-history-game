@@ -3,13 +3,13 @@ module.exports = {
     {
       displayName: 'unit',
       testEnvironment: 'node',
-      testMatch: ['<rootDir>/src/**/*.test.ts?(x)'],
+      testMatch: ['<rootDir>/src/**/*.test.ts'],
       setupFiles: ['<rootDir>/jest-setup.ts'],
     },
     {
-      displayName: 'integration',
+      displayName: 'component',
       preset: 'jest-expo',
-      testMatch: ['<rootDir>/e2e/**/*.test.ts?(x)'],
+      testMatch: ['<rootDir>/src/**/*.test.tsx'],
       setupFiles: ['<rootDir>/jest-setup.ts'],
       transformIgnorePatterns: [
         'node_modules/(?!((jest-)?react-native|@react-native|expo(nent)?|@expo(nent)?/.*|@react-navigation/.*|zustand))',
