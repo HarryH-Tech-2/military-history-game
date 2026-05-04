@@ -12,7 +12,7 @@ module.exports = {
       testMatch: ['<rootDir>/src/**/*.test.tsx'],
       setupFiles: ['<rootDir>/jest-setup.ts'],
       transformIgnorePatterns: [
-        'node_modules/(?!((jest-)?react-native|@react-native|expo(nent)?|@expo(nent)?/.*|@react-navigation/.*|zustand))',
+        'node_modules/(?!((jest-)?react-native|@react-native|expo(nent)?|@expo(nent)?/.*|@react-navigation/.*|zustand|react-native-reanimated|react-native-gesture-handler|expo-haptics))',
       ],
     },
   ],
