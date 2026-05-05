@@ -15,7 +15,7 @@ beforeEach(() => jest.clearAllMocks());
 
 describe('ensureUserProfile', () => {
   it('creates profile when none exists', async () => {
-    docMock.get.mockResolvedValueOnce({ exists: false });
+    docMock.get.mockResolvedValueOnce({ exists: () => false });
     await ensureUserProfile({ uid: 'u1', displayName: 'Tom', photoURL: null });
     expect(docMock.set).toHaveBeenCalledWith(expect.objectContaining({
       displayName: 'Tom', totalPoints: 0, unlockedEras: ['ancient'], currentEra: 'ancient',
@@ -23,7 +23,7 @@ describe('ensureUserProfile', () => {
   });
 
   it('does not overwrite existing profile', async () => {
-    docMock.get.mockResolvedValueOnce({ exists: true });
+    docMock.get.mockResolvedValueOnce({ exists: () => true });
     await ensureUserProfile({ uid: 'u1', displayName: 'Tom', photoURL: null });
     expect(docMock.set).not.toHaveBeenCalled();
   });
@@ -31,11 +31,11 @@ describe('ensureUserProfile', () => {
 
 describe('fetchUserProfile', () => {
   it('returns null when missing', async () => {
-    docMock.get.mockResolvedValueOnce({ exists: false });
+    docMock.get.mockResolvedValueOnce({ exists: () => false });
     expect(await fetchUserProfile('u1')).toBeNull();
   });
   it('returns parsed data when present', async () => {
-    docMock.get.mockResolvedValueOnce({ exists: true, data: () => ({
+    docMock.get.mockResolvedValueOnce({ exists: () => true, data: () => ({
       displayName: 'Tom', photoURL: null, totalPoints: 50,
       unlockedEras: ['ancient'], currentEra: 'ancient', eraScores: {},
     }) });
