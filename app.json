@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "military-history-app",
+    "name": "Military History",
     "slug": "military-history-app",
+    "scheme": "mhg",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,7 +14,10 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.harryharrison.militaryhistoryapp",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "usesAppleSignIn": true
     },
     "android": {
       "adaptiveIcon": {
@@ -21,10 +25,19 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.harryharrison.militaryhistoryapp",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-font",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      ["expo-build-properties", { "ios": { "useFrameworks": "static" } }],
+      "expo-apple-authentication"
+    ]
   }
 }
