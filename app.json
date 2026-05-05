@@ -37,7 +37,8 @@
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
       ["expo-build-properties", { "ios": { "useFrameworks": "static" } }],
-      "expo-apple-authentication"
+      "expo-apple-authentication",
+      "./plugins/credential-manager"
     ]
   }
 }
