@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.harryharrison.militaryhistoryapp",
-      "googleServicesFile": "./GoogleService-Info.plist",
+      "googleServicesFile": "$GOOGLE_SERVICES_INFO_PLIST",
       "usesAppleSignIn": true
     },
     "android": {
@@ -27,7 +27,7 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.harryharrison.militaryhistoryapp",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "$GOOGLE_SERVICES_JSON"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -36,9 +36,22 @@
       "expo-font",
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
-      ["expo-build-properties", { "ios": { "useFrameworks": "static" } }],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
       "expo-apple-authentication",
       "./plugins/credential-manager"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "558d5bf5-da19-4f54-9a6d-ec4aa1f9a244"
+      }
+    },
+    "owner": "harryhh"
   }
 }
