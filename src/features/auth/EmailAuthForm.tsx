@@ -4,8 +4,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '../../design/components/Button';
+import { PasswordInput } from '../../design/components/PasswordInput';
 import { colors, radii, spacing, type } from '../../design/tokens';
 import { emailSignIn, emailSignUp } from './useEmailAuth';
+import { mapAuthError } from './authErrors';
 
 const schema = z.object({
   email: z.string().email(),
@@ -24,8 +26,8 @@ export function EmailAuthForm({ mode }: { mode: 'signin' | 'signup' }) {
     try {
       if (mode === 'signup') await emailSignUp(values.email, values.password, values.displayName ?? values.email.split('@')[0]);
       else await emailSignIn(values.email, values.password);
-    } catch (e: any) {
-      setError(e.message ?? 'Sign-in failed');
+    } catch (e) {
+      setError(mapAuthError(e));
     } finally { setBusy(false); }
   };
 
@@ -50,8 +52,7 @@ export function EmailAuthForm({ mode }: { mode: 'signin' | 'signup' }) {
       <Controller
         control={control} name="password"
         render={({ field: { onChange, value } }) => (
-          <TextInput style={styles.input} placeholder="Password" secureTextEntry
-            placeholderTextColor={colors.parchmentDim} value={value ?? ''} onChangeText={onChange} />
+          <PasswordInput placeholder="Password" value={value ?? ''} onChangeText={onChange} />
         )}
       />
       {(errors.email || errors.password) && (

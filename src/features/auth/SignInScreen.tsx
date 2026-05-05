@@ -7,6 +7,7 @@ import { colors, spacing, type } from '../../design/tokens';
 import { signInWithApple } from './useAppleAuth';
 import { signInWithCredentialManager } from './useCredentialManager';
 import { EmailAuthForm } from './EmailAuthForm';
+import { mapAuthError } from './authErrors';
 
 export function SignInScreen() {
   const [showEmail, setShowEmail] = useState(false);
@@ -15,11 +16,20 @@ export function SignInScreen() {
 
   const handleGoogle = async () => {
     try { await signInWithCredentialManager(); }
-    catch (e: any) { if (e.code !== 'CM_ERROR') setError(e.message); }
+    catch (e) {
+      const code = (e as { code?: string }).code;
+      // CM_ERROR is the generic "user cancelled or generic credential error" — only surface if user-visible.
+      if (code === 'CM_ERROR') return;
+      setError(mapAuthError(e));
+    }
   };
   const handleApple = async () => {
     try { await signInWithApple(); }
-    catch (e: any) { setError(e.message); }
+    catch (e) {
+      const code = (e as { code?: string }).code;
+      if (code === 'ERR_REQUEST_CANCELED') return;
+      setError(mapAuthError(e));
+    }
   };
 
   return (

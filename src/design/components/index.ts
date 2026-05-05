@@ -2,3 +2,4 @@ export { Screen } from './Screen';
 export { Button } from './Button';
 export { Card } from './Card';
 export { Chip } from './Chip';
+export { PasswordInput } from './PasswordInput';
