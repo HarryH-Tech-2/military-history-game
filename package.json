@@ -11,7 +11,8 @@
     "test:watch": "jest --watch",
     "gen:images": "ts-node --project tsconfig.scripts.json scripts/generate-battle-images.ts",
     "gen:onboarding": "ts-node --project tsconfig.scripts.json scripts/generate-onboarding-images.ts",
-    "gen:battles": "ts-node --project tsconfig.scripts.json scripts/generate-missing-battle-images.ts"
+    "gen:battles": "ts-node --project tsconfig.scripts.json scripts/generate-missing-battle-images.ts",
+    "gen:appimages": "ts-node --project tsconfig.scripts.json scripts/generate-app-images.ts"
   },
   "dependencies": {
     "@expo-google-fonts/fraunces": "^0.4.1",
