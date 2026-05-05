@@ -1,7 +1,8 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import * as Haptics from 'expo-haptics';
-import { colors, radii, spacing, type } from '../tokens';
+import { radii, spacing, type } from '../tokens';
+import { useColors } from '../useColors';
+import { haptics } from '../../services/haptics';
 
 type Variant = 'primary' | 'secondary' | 'ghost';
 
@@ -15,47 +16,39 @@ export function Button({
   disabled?: boolean;
   leftIcon?: React.ReactNode;
 }) {
+  const colors = useColors();
   const handle = () => {
     if (disabled || loading) return;
-    Haptics.selectionAsync();
+    haptics.selection();
     onPress();
   };
-  const palette = variantStyles[variant];
+
+  const palette = {
+    primary: { bg: colors.bronze, fg: '#0E1B2C', borderColor: 'transparent' },
+    secondary: { bg: colors.inkSoft, fg: colors.parchment, borderColor: colors.bronzeDeep },
+    ghost: { bg: 'transparent', fg: colors.parchment, borderColor: 'transparent' },
+  }[variant];
+
   return (
     <Pressable
       onPress={handle}
       disabled={disabled || loading}
       style={({ pressed }) => [
         styles.base,
-        palette.container,
+        { backgroundColor: palette.bg, borderColor: palette.borderColor, borderWidth: variant === 'secondary' ? 1 : 0 },
         pressed && { opacity: 0.85 },
         (disabled || loading) && { opacity: 0.5 },
       ]}
     >
       <View style={styles.row}>
         {leftIcon}
-        {loading ? <ActivityIndicator color={palette.text.color} /> : (
-          <Text style={[type.button, palette.text]}>{label}</Text>
+        {loading ? <ActivityIndicator color={palette.fg} /> : (
+          <Text style={[type.button, { color: palette.fg }]}>{label}</Text>
         )}
       </View>
     </Pressable>
   );
 }
-
-const variantStyles = {
-  primary: {
-    container: { backgroundColor: colors.bronze },
-    text: { color: colors.ink },
-  },
-  secondary: {
-    container: { backgroundColor: colors.inkSoft, borderWidth: 1, borderColor: colors.bronzeDeep },
-    text: { color: colors.parchment },
-  },
-  ghost: {
-    container: { backgroundColor: 'transparent' },
-    text: { color: colors.parchment },
-  },
-} as const;
 
 const styles = StyleSheet.create({
   base: {

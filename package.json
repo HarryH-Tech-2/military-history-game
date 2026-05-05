@@ -9,7 +9,9 @@
     "web": "expo start --web",
     "test": "jest",
     "test:watch": "jest --watch",
-    "gen:images": "ts-node --project tsconfig.scripts.json scripts/generate-battle-images.ts"
+    "gen:images": "ts-node --project tsconfig.scripts.json scripts/generate-battle-images.ts",
+    "gen:onboarding": "ts-node --project tsconfig.scripts.json scripts/generate-onboarding-images.ts",
+    "gen:battles": "ts-node --project tsconfig.scripts.json scripts/generate-missing-battle-images.ts"
   },
   "dependencies": {
     "@expo-google-fonts/fraunces": "^0.4.1",
@@ -30,6 +32,8 @@
     "expo-font": "~14.0.11",
     "expo-haptics": "~15.0.8",
     "expo-image": "~3.0.11",
+    "expo-linear-gradient": "~15.0.8",
+    "expo-notifications": "~0.32.17",
     "expo-status-bar": "~3.0.9",
     "firebase": "^12.12.1",
     "react": "19.1.0",

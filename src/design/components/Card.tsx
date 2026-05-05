@@ -1,14 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { colors, radii, shadow, spacing } from '../tokens';
+import { radii, shadow, spacing } from '../tokens';
+import { useColors } from '../useColors';
 
 export function Card({ children, style }: { children: React.ReactNode; style?: ViewStyle }) {
-  return <View style={[styles.card, style]}>{children}</View>;
+  const colors = useColors();
+  return <View style={[styles.card, { backgroundColor: colors.inkSoft }, style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.inkSoft,
     borderRadius: radii.lg,
     padding: spacing.lg,
     ...shadow.card,

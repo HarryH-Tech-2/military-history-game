@@ -1,21 +1,23 @@
 import React from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors, spacing } from '../tokens';
+import { spacing } from '../tokens';
+import { useColors } from '../useColors';
 
 export function Screen({ children, padded = true, style }: {
   children: React.ReactNode;
   padded?: boolean;
   style?: ViewStyle;
 }) {
+  const colors = useColors();
   return (
-    <SafeAreaView style={styles.root} edges={['top', 'bottom']}>
+    <SafeAreaView style={[styles.root, { backgroundColor: colors.ink }]} edges={['top', 'bottom']}>
       <View style={[padded && styles.padded, style]}>{children}</View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: colors.ink },
+  root: { flex: 1 },
   padded: { flex: 1, paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
 });

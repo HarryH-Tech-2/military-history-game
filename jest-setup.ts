@@ -58,3 +58,34 @@ jest.mock('expo-haptics', () => ({
   ImpactFeedbackStyle: { Light: 'light', Medium: 'medium', Heavy: 'heavy' },
   selectionAsync: jest.fn(),
 }));
+
+// expo-linear-gradient — render as plain View in tests (no native gradient).
+jest.mock('expo-linear-gradient', () => {
+  const { View } = require('react-native');
+  return { LinearGradient: View };
+});
+
+// @react-native-firebase/auth mock — provides the minimum surface used by useAuth.
+jest.mock('@react-native-firebase/auth', () => {
+  const auth: any = () => ({
+    currentUser: null,
+    onAuthStateChanged: (_cb: unknown) => () => {},
+    signInWithEmailAndPassword: jest.fn(),
+    createUserWithEmailAndPassword: jest.fn(),
+    signInWithCredential: jest.fn(),
+    signOut: jest.fn(),
+  });
+  auth.GoogleAuthProvider = { credential: jest.fn() };
+  auth.AppleAuthProvider = { credential: jest.fn() };
+  return { __esModule: true, default: auth };
+});
+
+// @react-native-firebase/firestore — minimal mock.
+jest.mock('@react-native-firebase/firestore', () => {
+  const firestore: any = () => ({
+    collection: () => ({ doc: () => ({ get: jest.fn(), set: jest.fn(), update: jest.fn() }) }),
+    runTransaction: jest.fn(),
+  });
+  firestore.FieldValue = { serverTimestamp: () => null, increment: (n: number) => n };
+  return { __esModule: true, default: firestore };
+});
