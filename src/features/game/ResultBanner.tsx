@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, useWindowDimensions } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import ConfettiCannon from 'react-native-confetti-cannon';
 import { RoundResult } from '../../types';
 import { colors, radii, spacing, type } from '../../design/tokens';
 
@@ -11,9 +12,13 @@ export function ResultBanner({
   correctName: string;
   onContinue: () => void;
 }) {
+  const { width } = useWindowDimensions();
   const tone = result.correct ? colors.victory : colors.defeat;
   return (
     <Animated.View entering={FadeIn.duration(180)} exiting={FadeOut.duration(160)} style={styles.overlay}>
+      {result.correct && (
+        <ConfettiCannon count={80} fallSpeed={2500} origin={{ x: width / 2, y: 0 }} fadeOut autoStart />
+      )}
       <Pressable style={styles.card} onPress={onContinue}>
         <View style={[styles.tag, { backgroundColor: tone }]}>
           <Text style={[type.bodyBold, { color: colors.ink }]}>
