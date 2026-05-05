@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PathScreen } from '../features/progress/PathScreen';
 import { LeaderboardScreen } from '../features/leaderboard/LeaderboardScreen';
 import { ProfileScreen } from '../features/profile/ProfileScreen';
@@ -21,6 +22,9 @@ const TAB_ICONS: Record<keyof TabParamList, { active: IconName; inactive: IconNa
 export function AppTabs() {
   const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const colors = useColors();
+  const insets = useSafeAreaInsets();
+  // Lift the bar above the Android system navigation bar / iOS home indicator.
+  const bottomPad = Math.max(insets.bottom, 8);
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -28,9 +32,10 @@ export function AppTabs() {
         tabBarStyle: {
           backgroundColor: colors.ink,
           borderTopColor: colors.bronzeDeep,
-          height: 64,
+          borderTopWidth: 1,
+          height: 64 + bottomPad,
           paddingTop: 6,
-          paddingBottom: 8,
+          paddingBottom: bottomPad,
         },
         tabBarActiveTintColor: colors.bronze,
         tabBarInactiveTintColor: colors.parchmentDim,

@@ -17,9 +17,9 @@ beforeEach(() => {
 });
 
 describe('RoundScreen', () => {
-  it('shows year chip and one initial clue', () => {
+  it('shows year tab and one initial clue', () => {
     const { getByText, queryByText } = render(<RoundScreen onFinished={() => {}} />);
-    expect(getByText(/Year:/)).toBeTruthy();
+    expect(getByText('490 BC')).toBeTruthy();
     expect(getByText('Hint A')).toBeTruthy();
     expect(queryByText('Hint B')).toBeNull();
   });

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, NavigationProp, ParamListBase } from '@react-navigation/native';
 import { Screen } from '../../design/components/Screen';
@@ -8,7 +8,7 @@ import { ClueList } from './ClueList';
 import { GuessInput, GuessInputHandle } from './GuessInput';
 import { ResultBanner } from './ResultBanner';
 import { useGameStore } from '../../state/useGameStore';
-import { colors, spacing } from '../../design/tokens';
+import { colors, radii, spacing, type } from '../../design/tokens';
 import { haptics } from '../../services/haptics';
 import { RoundResult } from '../../types';
 
@@ -28,6 +28,7 @@ export function RoundScreen({ onFinished }: { onFinished: () => void }) {
 
   const battle = battles[currentIndex];
   if (!battle) return null;
+  const yearLabel = battle.year < 0 ? `${Math.abs(battle.year)} BC` : `${battle.year} AD`;
 
   const handleSubmit = (guess: string) => {
     const result = submitGuess(guess);
@@ -62,7 +63,12 @@ export function RoundScreen({ onFinished }: { onFinished: () => void }) {
     <Screen padded={false}>
       <ScrollView contentContainerStyle={{ paddingBottom: spacing.xl }}>
         <BattleHero battle={battle} />
-        <View style={{ padding: spacing.lg, gap: spacing.lg }}>
+        <View style={styles.yearRow}>
+          <View style={styles.yearTab}>
+            <Text style={[type.caption, styles.yearText]}>{yearLabel}</Text>
+          </View>
+        </View>
+        <View style={{ paddingHorizontal: spacing.lg, paddingBottom: spacing.lg, gap: spacing.lg }}>
           <ClueList clues={battle.hints} revealed={cluesRevealed} onReveal={revealClue} />
           <GuessInput
             ref={inputRef}
@@ -101,5 +107,23 @@ const styles = StyleSheet.create({
     borderColor: colors.bronzeDeep,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  yearRow: {
+    alignItems: 'center',
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.xs,
+  },
+  yearTab: {
+    paddingHorizontal: spacing.md,
+    paddingVertical: 4,
+    borderRadius: radii.sm,
+    backgroundColor: colors.inkSoft,
+    borderWidth: 1,
+    borderColor: colors.bronzeDeep,
+  },
+  yearText: {
+    color: colors.bronze,
+    fontWeight: '700',
+    letterSpacing: 1,
   },
 });
