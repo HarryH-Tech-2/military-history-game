@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Screen } from '../../design/components/Screen';
 import { BattleHero } from './BattleHero';
 import { ClueList } from './ClueList';
-import { GuessInput } from './GuessInput';
+import { GuessInput, GuessInputHandle } from './GuessInput';
 import { ResultBanner } from './ResultBanner';
 import { useGameStore } from '../../state/useGameStore';
 import { spacing } from '../../design/tokens';
@@ -13,6 +13,7 @@ import { RoundResult } from '../../types';
 export function RoundScreen({ onFinished }: { onFinished: () => void }) {
   const { battles, currentIndex, cluesRevealed, pointsAvailable, revealClue, submitGuess, status } = useGameStore();
   const [pendingResult, setPendingResult] = useState<RoundResult | null>(null);
+  const inputRef = useRef<GuessInputHandle>(null);
 
   const battle = battles[currentIndex];
   if (!battle) return null;
@@ -22,6 +23,7 @@ export function RoundScreen({ onFinished }: { onFinished: () => void }) {
     Haptics.notificationAsync(
       result.correct ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Error,
     );
+    if (!result.correct) inputRef.current?.shake();
     setPendingResult(result);
   };
 
@@ -37,6 +39,7 @@ export function RoundScreen({ onFinished }: { onFinished: () => void }) {
         <View style={{ padding: spacing.lg, gap: spacing.lg }}>
           <ClueList clues={battle.hints} revealed={cluesRevealed} onReveal={revealClue} />
           <GuessInput
+            ref={inputRef}
             pointsAvailable={pointsAvailable}
             onSubmit={handleSubmit}
             disabled={!!pendingResult}

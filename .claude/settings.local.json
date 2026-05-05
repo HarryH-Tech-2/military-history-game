@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv /c/Users/harry/Documents/code/_stash_docs /c/Users/harry/Documents/code/military-history-app/docs)",
+      "Bash(mv /c/Users/harry/Documents/code/_stash_claude /c/Users/harry/Documents/code/military-history-app/.claude)",
+      "Bash(npx expo:*)",
+      "Bash(npm install:*)",
+      "Bash(npm test:*)",
+      "Bash(git:*)",
+      "Bash(python3 -c \"import json,sys; p=json.load\\(sys.stdin\\); deps={**p.get\\(''''dependencies'''',{}\\),**p.get\\(''''devDependencies'''',{}\\)}; checks=[''''expo-image'''',''''@react-navigation/native'''',''''@react-navigation/native-stack'''',''''react-native-screens'''',''''react-native-safe-area-context'''',''''zustand'''',''''jest'''',''''jest-expo'''',''''@types/jest'''',''''ts-node'''']; [print\\(f''''  {c}: {\"\"OK\"\" if c in deps else \"\"MISSING\"\"}''''\\) for c in checks]\")",
+      "Bash(node:*)",
+      "Bash(npx tsc:*)",
+      "Bash(ls:*)",
+      "Read(//c/Users/harry/.claude/projects/C--Users-harry-Documents-code-military-history-app/memory//**)",
+      "Read(//c/Users/harry/.claude/projects/C--Users-harry-Documents-code-military-history-app/memory/**)",
+      "Read(//tmp/**)",
+      "Read(//tmp/battleguess-ref/src/data/**)",
+      "Read(//tmp/battleguess-ref/public/**)",
+      "Bash(ps -W)",
+      "Bash(grep -vE '^battle-[0-9]+\\\\.webp$')",
+      "Bash(grep:*)",
+      "Bash(sed -i 's/export const americanWarsBattles:/export const americanWars:/' src/data/battles/americanWars.ts)",
+      "Bash(sed -i 's/export const ancientEgyptMesopotamiaBattles:/export const ancientEgyptMesopotamia:/' src/data/battles/ancientEgyptMesopotamia.ts)",
+      "Bash(sed -i 's/export const ancientGreeceRomeBattles:/export const ancientGreeceRome:/' src/data/battles/ancientGreeceRome.ts)",
+      "Bash(sed -i 's/export const colonialNapoleonicBattles:/export const colonialNapoleonic:/' src/data/battles/colonialNapoleonic.ts)",
+      "Bash(sed -i 's/export const eastAsiaBattles:/export const eastAsia:/' src/data/battles/eastAsia.ts)",
+      "Bash(npx ts-node:*)",
+      "Bash(TS_NODE_COMPILER_OPTIONS='{\"\"\"\"module\"\"\"\":\"\"\"\"commonjs\"\"\"\",\"\"\"\"moduleResolution\"\"\"\":\"\"\"\"node\"\"\"\",\"\"\"\"esModuleInterop\"\"\"\":true}' npx ts-node --transpile-only --compiler-options '{\"\"\"\"module\"\"\"\":\"\"\"\"commonjs\"\"\"\",\"\"\"\"moduleResolution\"\"\"\":\"\"\"\"node\"\"\"\"}' tmp-count.ts)",
+      "Bash(cd:*)",
+      "Bash(TS_NODE_COMPILER_OPTIONS='{\"\"\"\"module\"\"\"\":\"\"\"\"commonjs\"\"\"\",\"\"\"\"moduleResolution\"\"\"\":\"\"\"\"node\"\"\"\",\"\"\"\"customConditions\"\"\"\":null}' npm run gen:images)",
+      "Bash(npm run:*)"
+    ]
+  }
+}
