@@ -19,7 +19,7 @@ class CredentialManagerModule(reactContext: ReactApplicationContext)
 
   @ReactMethod
   fun getCredential(options: ReadableMap, promise: Promise) {
-    val activity: Activity = currentActivity ?: return promise.reject("NO_ACTIVITY", "No activity")
+    val activity: Activity = getCurrentActivity() ?: return promise.reject("NO_ACTIVITY", "No activity")
     val webClientId = options.getString("googleWebClientId")
       ?: return promise.reject("BAD_ARGS", "googleWebClientId required")
 
