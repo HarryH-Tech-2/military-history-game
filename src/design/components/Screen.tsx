@@ -12,12 +12,13 @@ export function Screen({ children, padded = true, style }: {
   const colors = useColors();
   return (
     <SafeAreaView style={[styles.root, { backgroundColor: colors.ink }]} edges={['top', 'bottom']}>
-      <View style={[padded && styles.padded, style]}>{children}</View>
+      <View style={[styles.flex, padded && styles.padded, style]}>{children}</View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  padded: { flex: 1, paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
+  flex: { flex: 1 },
+  padded: { paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
 });

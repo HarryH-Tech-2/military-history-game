@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
-import { FlatList, ImageBackground, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { FlatList, ImageBackground, StatusBar, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Screen } from '../../design/components/Screen';
 import { Button } from '../../design/components/Button';
 import { colors, spacing, type } from '../../design/tokens';
 
@@ -36,6 +36,7 @@ const SLIDES: Slide[] = [
 
 export function WelcomeCarousel({ onDone }: { onDone: () => void }) {
   const { width } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   const [index, setIndex] = useState(0);
   const ref = useRef<FlatList>(null);
 
@@ -49,7 +50,8 @@ export function WelcomeCarousel({ onDone }: { onDone: () => void }) {
   };
 
   return (
-    <Screen padded={false}>
+    <View style={styles.root}>
+      <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
       <FlatList
         ref={ref}
         data={SLIDES}
@@ -68,34 +70,39 @@ export function WelcomeCarousel({ onDone }: { onDone: () => void }) {
               colors={['rgba(14,27,44,0.1)', 'rgba(14,27,44,0.55)', 'rgba(14,27,44,0.95)']}
               style={StyleSheet.absoluteFill}
             />
-            <View style={styles.textBlock}>
+            <View style={[styles.textBlock, { paddingBottom: insets.bottom + 160 }]}>
               <Text style={[type.display, styles.title]}>{item.title}</Text>
               <Text style={[type.body, styles.body]}>{item.body}</Text>
             </View>
           </ImageBackground>
         )}
       />
-      <View style={styles.dots}>
-        {SLIDES.map((_, i) => (
-          <View key={i} style={[styles.dot, i === index && styles.dotActive]} />
-        ))}
+      <View pointerEvents="box-none" style={[styles.bottom, { paddingBottom: insets.bottom + spacing.md }]}>
+        <View style={styles.dots}>
+          {SLIDES.map((_, i) => (
+            <View key={i} style={[styles.dot, i === index && styles.dotActive]} />
+          ))}
+        </View>
+        <View style={{ paddingHorizontal: spacing.lg }}>
+          <Button label={index === SLIDES.length - 1 ? 'Get started' : 'Next'} onPress={advance} />
+        </View>
       </View>
-      <View style={{ paddingHorizontal: spacing.lg, paddingBottom: spacing.lg }}>
-        <Button label={index === SLIDES.length - 1 ? 'Get started' : 'Next'} onPress={advance} />
-      </View>
-    </Screen>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: colors.ink },
   slide: { flex: 1, justifyContent: 'flex-end' },
   textBlock: {
-    padding: spacing.xl,
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.xl,
     gap: spacing.md,
   },
   title: { color: colors.parchment, textAlign: 'center', textShadowColor: 'rgba(0,0,0,0.4)', textShadowRadius: 4 },
   body:  { color: colors.parchment, textAlign: 'center', opacity: 0.92 },
+  bottom: { position: 'absolute', left: 0, right: 0, bottom: 0, gap: spacing.sm },
   dots:  { flexDirection: 'row', justifyContent: 'center', gap: 6, paddingVertical: spacing.md },
-  dot:   { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.inkSoft },
+  dot:   { width: 8, height: 8, borderRadius: 4, backgroundColor: 'rgba(242,232,213,0.4)' },
   dotActive: { backgroundColor: colors.bronze, width: 24 },
 });
