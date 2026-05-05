@@ -1,12 +1,15 @@
-import type { Difficulty, GameFilter, RoundResult } from '../types';
+import { EraId } from '../data/eras';
 
 export type RootStackParamList = {
-  Home: undefined;
-  Game: { difficulty: Difficulty; filter: GameFilter };
-  Results: {
-    difficulty: Difficulty;
-    filter: GameFilter;
-    score: number;
-    results: RoundResult[];
-  };
+  Onboarding: undefined;
+  Auth: undefined;
+  App: undefined;
+  Round: { eraId: EraId };
+  Summary: { eraId: EraId };
+};
+
+export type TabParamList = {
+  Path: undefined;
+  Leaderboard: undefined;
+  Profile: undefined;
 };
