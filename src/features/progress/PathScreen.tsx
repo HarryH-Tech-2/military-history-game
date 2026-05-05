@@ -1,13 +1,16 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Screen } from '../../design/components/Screen';
 import { ERAS, EraId } from '../../data/eras';
 import { useProgressStore } from '../../state/useProgressStore';
 import { EraMedallion, EraStatus } from './EraMedallion';
-import { colors, spacing, type } from '../../design/tokens';
+import { spacing } from '../../design/tokens';
+import { PlayerBanner } from './PlayerBanner';
+import { useAuth } from '../auth/useAuth';
 
 export function PathScreen({ onStartEra }: { onStartEra: (id: EraId) => void }) {
-  const { totalPoints, unlockedEras, currentEra, eraScores } = useProgressStore();
+  const { unlockedEras, currentEra, eraScores } = useProgressStore();
+  const { user } = useAuth();
 
   const statusFor = (id: EraId): EraStatus => {
     if (eraScores[id]) return 'completed';
@@ -16,12 +19,11 @@ export function PathScreen({ onStartEra }: { onStartEra: (id: EraId) => void }) 
   };
 
   return (
-    <Screen>
-      <View style={styles.header}>
-        <Text style={[type.caption, { color: colors.parchmentDim }]}>Total points</Text>
-        <Text style={[type.display, { color: colors.bronze }]}>{totalPoints}</Text>
+    <Screen padded={false}>
+      <View style={styles.bannerWrap}>
+        <PlayerBanner displayName={user?.displayName} photoURL={user?.photoURL} />
       </View>
-      <ScrollView contentContainerStyle={{ paddingVertical: spacing.lg }}>
+      <ScrollView contentContainerStyle={{ paddingHorizontal: spacing.lg, paddingBottom: spacing.lg }}>
         {ERAS.map(era => (
           <EraMedallion
             key={era.id}
@@ -37,5 +39,5 @@ export function PathScreen({ onStartEra }: { onStartEra: (id: EraId) => void }) 
 }
 
 const styles = StyleSheet.create({
-  header: { alignItems: 'center', paddingVertical: spacing.md },
+  bannerWrap: { paddingHorizontal: spacing.xs },
 });

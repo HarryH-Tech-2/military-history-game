@@ -13,7 +13,7 @@ import { EraSummary } from '../features/game/EraSummary';
 import { getBattlesForEra } from '../data/eras';
 import { commitEraCompletion } from '../services/eraCompletion';
 import { useProgressStore } from '../state/useProgressStore';
-import { colors } from '../design/tokens';
+import { useColors } from '../design/useColors';
 import { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -66,6 +66,7 @@ function SummaryRoute({ route }: any) {
 export function RootNavigator() {
   const { user, initializing } = useAuth();
   const seen = useOnboardingStore(s => s.seen);
+  const colors = useColors();
 
   if (initializing) {
     return (
