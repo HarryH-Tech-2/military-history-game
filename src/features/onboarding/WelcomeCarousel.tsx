@@ -1,14 +1,37 @@
 import React, { useRef, useState } from 'react';
-import { FlatList, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { FlatList, ImageBackground, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Screen } from '../../design/components/Screen';
 import { Button } from '../../design/components/Button';
 import { colors, spacing, type } from '../../design/tokens';
 
-const SLIDES = [
-  { title: "Guess history's greatest battles", body: 'Famous and forgotten — across 5,000 years.' },
-  { title: 'One clue. One guess.',              body: 'Up to 10 points per battle.' },
-  { title: 'Need help? Use a clue.',            body: 'Each one costs 2 points.' },
-  { title: 'Climb through the ages.',           body: 'From antiquity to the modern era.' },
+interface Slide {
+  title: string;
+  body: string;
+  background: number; // require()'d image module id
+}
+
+const SLIDES: Slide[] = [
+  {
+    title: "Guess history's greatest battles",
+    body: 'Famous and forgotten — across 5,000 years.',
+    background: require('../../../assets/onboarding/slide-1.webp'),
+  },
+  {
+    title: 'One clue. One guess.',
+    body: 'Up to 10 points per battle.',
+    background: require('../../../assets/onboarding/slide-2.webp'),
+  },
+  {
+    title: 'Need help? Use a clue.',
+    body: 'Each one costs 2 points.',
+    background: require('../../../assets/onboarding/slide-3.webp'),
+  },
+  {
+    title: 'Climb through the ages.',
+    body: 'From antiquity to the modern era.',
+    background: require('../../../assets/onboarding/slide-4.webp'),
+  },
 ];
 
 export function WelcomeCarousel({ onDone }: { onDone: () => void }) {
@@ -36,10 +59,20 @@ export function WelcomeCarousel({ onDone }: { onDone: () => void }) {
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={(e) => setIndex(Math.round(e.nativeEvent.contentOffset.x / width))}
         renderItem={({ item }) => (
-          <View style={[styles.slide, { width }]}>
-            <Text style={[type.display, styles.title]}>{item.title}</Text>
-            <Text style={[type.body, styles.body]}>{item.body}</Text>
-          </View>
+          <ImageBackground
+            source={item.background}
+            style={[styles.slide, { width }]}
+            resizeMode="cover"
+          >
+            <LinearGradient
+              colors={['rgba(14,27,44,0.1)', 'rgba(14,27,44,0.55)', 'rgba(14,27,44,0.95)']}
+              style={StyleSheet.absoluteFill}
+            />
+            <View style={styles.textBlock}>
+              <Text style={[type.display, styles.title]}>{item.title}</Text>
+              <Text style={[type.body, styles.body]}>{item.body}</Text>
+            </View>
+          </ImageBackground>
         )}
       />
       <View style={styles.dots}>
@@ -55,9 +88,13 @@ export function WelcomeCarousel({ onDone }: { onDone: () => void }) {
 }
 
 const styles = StyleSheet.create({
-  slide: { flex: 1, padding: spacing.xl, justifyContent: 'center', gap: spacing.md },
-  title: { color: colors.parchment, textAlign: 'center' },
-  body:  { color: colors.parchmentDim, textAlign: 'center' },
+  slide: { flex: 1, justifyContent: 'flex-end' },
+  textBlock: {
+    padding: spacing.xl,
+    gap: spacing.md,
+  },
+  title: { color: colors.parchment, textAlign: 'center', textShadowColor: 'rgba(0,0,0,0.4)', textShadowRadius: 4 },
+  body:  { color: colors.parchment, textAlign: 'center', opacity: 0.92 },
   dots:  { flexDirection: 'row', justifyContent: 'center', gap: 6, paddingVertical: spacing.md },
   dot:   { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.inkSoft },
   dotActive: { backgroundColor: colors.bronze, width: 24 },
